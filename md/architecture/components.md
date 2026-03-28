@@ -5,20 +5,20 @@
 - Keep it server-rendered for MVP; bots/mobile clients can come later once the HTTP surface stabilizes.
 
 ## LLM Orchestrator
-- Two agents:
-  - **Generator**: accepts `(track_id, grammar_factor_id, vocab_group_id)` and returns a translation prompt + answer key.
-  - **Judge**: scores the learner response, optionally offering a single retry.
-- Prompts live in `prompts/` with fixtures so we can regression-test prompt edits.
+- Two stateless prompt functions powered by `deterministic`:
+  - **Generator** takes `(track_id, grammar_factor_id, vocab_group_id)` plus language metadata and returns one translation prompt + answer key.
+  - **Judge** takes the prompt context + learner answer and emits a single verdict (no retries/state machines in MVP).
+- Prompts live in `prompts/` alongside fixtures so we can spell out exactly what context we send and regression-test edits.
 
 ## Scheduler & Decay Engine
-- Lightweight priority queue per track.
-- Inputs: attempt history + target cadence. No fancy boosts yet—just “pick the lowest score”.
-- Outputs the next `(grammar factor, vocab group)` pair when the learner requests a drill.
+- Lightweight priority queue per track using the exponential decay math outlined in the Data Model chapter (start simple; evolve toward SM-2 if needed).
+- Inputs: attempt history + the learner’s requested session length. No boosts or multi-step logic yet.
+- Outputs the next `(grammar factor, vocab group)` pair whenever the user hits **Test Me**.
 
 ## Persistence Layer
 - SQLite via `sqlx` to start.
 - Tables cover: users, language_grammar_factors (curated in code), track_factor_selection, vocab_groups, vocab_items, attempts, judge_actions, srs_state, journal_entries.
-- Migrations checked in; Postgres migration comes later if needed.
+- Migrations checked in; Postgres on Railway will use the same ones.
 
 ## Audit Trail (MVP)
 - Basic request/response logging for LLM calls.
