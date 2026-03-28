@@ -1,36 +1,25 @@
 # Practice Flow
 
-This is the “docs from the future” run-through of a single session.
+MVP session loop:
 
-1. **Queue Preview**
-   - Dashboard shows today’s target minutes, upcoming grammar focus, and vocab groups slated for review.
-   - Each card lists **decay %, last success, confidence trend**.
+1. **Pick the next drill**
+   - Dashboard lists each track with “minutes remaining” and the highest-priority grammar/vocab pair.
+   - Click a track to start; Mnemo dequeues the top pair.
 
-2. **Prompt Generation**
-   - When you click “Start session”, Mnemo bundles: highest-priority grammar concept, 1–2 vocab groups, plus any notes.
-   - Generator agent call (via determinishtic) returns structured JSON with:
-     - `display_prompt`: textual instruction (e.g., “Translate to Greek: Yesterday I ___ my bike to the market, but it broke.”)
-     - `answer_key`: canonical answer + acceptable variants.
-     - `focus`: grammar + vocab reminders shown as pill badges.
+2. **Generate a prompt**
+   - Server passes the selected grammar factor + vocab group to the LLM generator (via determinishtic).
+   - Generator responds with plain text instructions (e.g., “Translate to Greek: Yesterday I rode my bike to the market but it broke”) and an answer key.
 
-3. **Learner Response**
-   - Rich text input with quick accent helpers.
-   - Optional “show hint” drops the key grammar reminder (costs session XP so you don’t overuse it).
+3. **Learner responds**
+   - Simple textarea input; type the translation and submit.
+   - (Future niceties like accent helpers or hints are out-of-scope for MVP.)
 
-4. **Judging + Feedback**
-   - Judge agent receives prompt context, learner answer, and rubric.
-   - It can:
-     - Ask for clarification (“Did you mean the aorist form of ‘πηγαίνω’?”)
-     - Offer second chance (records `status = retry` and shows subtle hint)
-     - Grade: grammar score, vocab score, freeform feedback, recommended follow-up concept.
-   - Feedback UI displays color-coded chips and stores transcript for later audit.
+4. **Judge + optional retry**
+   - Judge agent sees the prompt, answer key, and your response.
+   - It can (a) mark correct/incorrect/close with short feedback or (b) offer one retry if the answer was almost there.
 
-5. **Recording Progress**
-   - Server logs the attempt, updates decay curves, and surfaces “next up” info.
-   - If grammar or vocab score < threshold, concept moves to **Needs Attention** list.
+5. **Record + advance**
+   - Attempt stored with grammar factor + vocab group references.
+   - SRS scores update, the queue pulls the next pair, and the dashboard reflects progress.
 
-6. **Session Wrap**
-   - Summary modal: attempts, accuracy, concepts reinforced, suggested reading from mdBook (e.g., quick grammar explainer).
-   - You can add a journal note (“struggled with participles today”).
-
-That’s the loop we’re building toward before writing the first line of backend code.
+That’s the minimal loop we’re targeting before adding polish.

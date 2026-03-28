@@ -6,15 +6,15 @@
 | --- | --- | --- |
 | `users` | learner profile | id, handle, timezone, notification defaults |
 | `user_language_tracks` | per-language configuration | id, user_id, language_name, qualifier, descriptor, cadence prefs, experience level |
-| `grammar_concepts` | canonical catalog per language family | slug, title, description, language, difficulty, tags |
-| `user_grammar_status` | per-track progress | track_id, concept_id, status, notes |
+| `language_grammar_factors` | curated grammar factors per language (checked into code + seeded to DB) | id, language_name, category, factor_key, description |
+| `track_factor_selection` | per-track subset + status | track_id, language_factor_id, status, notes |
 | `vocab_groups` | user-authored sets per track | id, track_id, description, tags, seed list |
 | `vocab_items` | resolved tokens | group_id, text, lemma, metadata |
-| `attempts` | exercise log | id, track_id, generator_version, judge_version, prompt_blob, answer_blob |
+| `attempts` | exercise log | id, track_id, grammar_factor_id, vocab_group_id, generator_version, judge_version, prompt_blob, answer_blob |
 | `judge_actions` | fine-grained decisions | attempt_id, action_type, payload |
-| `srs_state` | decay metrics | entity_type (grammar/vocab/item), entity_id, track_id, score, last_reviewed |
+| `srs_state` | decay metrics | entity_type (factor/group/item), entity_id, track_id, score, last_reviewed |
 
-We keep language-specific seed data in `grammar_concepts`, so the onboarding flow can ask the LLM to propose a concept subset for any language + descriptor.
+The key idea: we version and store the grammar/vocab factors ourselves when we add a language. LLMs can still suggest subsets, but the authoritative catalog ships with Mnemo.
 
 ## SRS Algorithm (v1)
 
