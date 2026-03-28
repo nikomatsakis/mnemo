@@ -1,25 +1,10 @@
 # Practice Flow
 
-MVP session loop:
+From the learner’s perspective:
 
-1. **Pick the next drill**
-   - Dashboard lists each track with “minutes remaining” and the highest-priority grammar/vocab pair.
-   - Click a track to start; Mnemo dequeues the top pair.
+1. **Tap “Test Me.”** Pick a 5, 10, or 20 minute session from the dashboard. (We remember your native language so sentences can go both directions.)
+2. **Translate once.** Mnemo serves a sentence that targets a specific grammar factor + vocab area. Sometimes you translate into the target language; other times back into your native language. You get a single input box—no retries in MVP.
+3. **Judge + track.** The judge agent scores the attempt, noting which words/concepts were solid and which need more work. That data updates the SRS queues for the vocab area and grammar factor (even if that word appears in multiple areas).
+4. **Repeat until time’s up.** Once the timer expires we show a quick summary (attempts, strengths, upcoming focus) and drop you back on the dashboard.
 
-2. **Generate a prompt**
-   - Server passes the selected grammar factor + vocab group to the LLM generator (via determinishtic).
-   - Generator responds with plain text instructions (e.g., “Translate to Greek: Yesterday I rode my bike to the market but it broke”) and an answer key.
-
-3. **Learner responds**
-   - Simple textarea input; type the translation and submit.
-   - (Future niceties like accent helpers or hints are out-of-scope for MVP.)
-
-4. **Judge + optional retry**
-   - Judge agent sees the prompt, answer key, and your response.
-   - It can (a) mark correct/incorrect/close with short feedback or (b) offer one retry if the answer was almost there.
-
-5. **Record + advance**
-   - Attempt stored with grammar factor + vocab group references.
-   - SRS scores update, the queue pulls the next pair, and the dashboard reflects progress.
-
-That’s the minimal loop we’re targeting before adding polish.
+That’s the simple loop we’re committing to before any extra bells or whistles.

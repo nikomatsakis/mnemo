@@ -1,25 +1,23 @@
 # Configuration
 
-## Study Profile
+## Native Language
+- Set once (editable). We use it to decide translation direction and to localize UI copy later.
 
-- **Study tracks:** Maintain multiple languages at once (e.g., “Greek – conversational refresh”, “German – basic travel”). Each track stores the language name, optional dialect qualifier, and a descriptor (“basic German”).
-- **Bootstrap grammar catalog:** When you add a track, Mnemo asks the LLM to assemble an initial set of grammar factors for that language/descriptor. You can accept, prune, or add items manually.
-- **Experience level & cadence:** Per track, set level (beginner / returning / conversational / fluent-but-rusty) plus preferred minutes per day and weekly targets. Scheduler keeps independent queues per track.
+## Target Languages
+For each target language you add:
+- **Goal + proficiency:** freeform descriptor plus a dropdown (beginner / intermediate / advanced / expert).
+- **Grammar checklist:** we show the full curated list for that language with checkboxes. Enabling/disabling a factor doesn’t delete its data—we still display last-seen time, accuracy, and next scheduled review so you can re-enable later.
+- **Per-factor stats:** sparkline or simple text showing “last attempted”, “confidence”, and “next due”. Even disabled factors keep their history visible.
 
-## Grammar Concepts
+## Vocabulary Areas
+- Describe an area in plain English (“Berlin coffee order”, “Spanish emergency room”). Mnemo stores the description + tags and asks the LLM to propose concrete words/phrases.
+- Each word entry tracks: spelling, meaning/notes, associated areas, accuracy, next due time. Because a word can belong to multiple areas we keep a `words` table and a join table for `(word_id, area_id)`.
+- Actions per area: “add more words” (re-prompt the LLM), “delete word”, or “move word to another area”. Removing a word from one area doesn’t erase its history if it still belongs elsewhere.
 
-- Concepts live inside each study track. Browse the auto-generated list or add your own (“Subjunctive mood for polite requests”).
-- Mark status: *Not started*, *Learning*, *Reinforcing*, *Confident*. Status + notes stay scoped to the track so German progress doesn’t affect Greek.
-- Attach optional notes (feed into prompts): “Practice dative plural endings,” “focus on separable prefixes.”
+## What You See on the Settings Page
+- Native language summary.
+- List of target languages with goal + quick stats.
+- Within each language, the grammar table and vocabulary areas described above.
+- Buttons for exporting/deleting your data.
 
-## Vocabulary Groups
-
-- Authored per track using natural language: “breakfast foods you’d mention in Athens”, “verbs for negotiating in German flea markets”.
-- Optional seed list: comma-separated source/target words for extra control.
-- Tags: formality, context, register. Mnemo tracks decay per group, per item, and per track.
-
-## Out of Scope (for now)
-
-- Notifications, external integrations, and cohort sharing ship later. MVP focuses on: define track → curate grammar/vocab → practice translations → log progress.
-
-After saving, Mnemo persists the tracks, runs migrations if needed, and precomputes queues independently for each language.
+That’s all the configuration we need for MVP; everything feeds the Test Me loop.
