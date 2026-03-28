@@ -2,26 +2,26 @@
 
 ## Study Profile
 
-- **Language:** Currently Greek, but Mnemo stores a `target_language` field so we can expand later.
-- **Experience level:** Beginner / returning / conversational. Used to seed default grammar priorities and generator tone.
-- **Cadence settings:** Desired minutes per day + weekly goal. Scheduler uses these to size daily queues.
+- **Study tracks:** You can maintain multiple languages at once (e.g., “Greek – conversational refresh”, “German – basic travel”). Each track stores the language name, optional dialect qualifier, and a freeform descriptor (“basic German”, “advanced European Portuguese”).
+- **Bootstrap grammar catalog:** When you add a track, Mnemo asks the LLM to assemble an initial grammar concept list tailored to your descriptor. You can accept it wholesale or prune/add items manually.
+- **Experience level & cadence:** Per track you set level (beginner / returning / conversational / fluent-but-rusty) plus preferred minutes per day and weekly targets. Scheduler keeps independent queues per track.
 
 ## Grammar Concepts
 
-- Browse curated concepts (e.g., *Present tense*, *Aorist*, *Cases*, *Particles*) with short explanations.
-- Mark each concept with a status: *Not started*, *Learning*, *Reinforcing*, *Confident*.
-- Optional notes: “struggling with aspect vs tense”, “remember to drill feminine endings”. These notes feed the LLM prompts.
+- Concepts live inside each study track. Browse the auto-generated list or add your own (“Subjunctive mood in polite requests”).
+- Mark status: *Not started*, *Learning*, *Reinforcing*, *Confident*. Status + notes stay scoped to the track so German progress doesn’t affect Greek.
+- Optional notes (feed into prompts): “Practice dative plural endings,” “focus on separable prefixes.”
 
 ## Vocabulary Groups
 
-- Authored as natural-language descriptions. Example: “verbs used when negotiating in a market, including polite forms.”
-- Optional seed list: comma-separated Greek or English words if you want extra control.
-- Tags: formality, context (travel, work), and “must include” vs “nice to include”.
-- Mnemo tracks decay per group and per surfaced token.
+- Authored per track using natural language: “breakfast foods you’d mention in Athens”, “verbs for negotiating in German flea markets”.
+- Optional seed list: comma-separated source/target words for extra control.
+- Tags: formality, context, register, “must include” vs “nice to include.”
+- Mnemo tracks decay per group, per item, and per track.
 
 ## Notifications & Integrations
 
-- Toggle reminders (Telegram bot ping, email, desktop).
-- Export: CSV of attempts, Anki deck snapshot, raw journal entries.
+- Reminders can be global or per track (e.g., weekday ping for Greek, weekend ping for German).
+- Export tools let you download all data or filter by track (CSV, Anki, JSON journal).
 
-Once configured, hit **Save profile**. Mnemo persists everything, migrates schema automatically, and the scheduler precomputes your first queue.
+After saving, Mnemo persists the tracks, runs migrations if needed, and precomputes queues independently for each language.
