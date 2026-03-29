@@ -2,10 +2,9 @@
 title = "Mnemo"
 authors = ["Nicholas Matsakis", "Pacific Heart"]
 src = "md"
-multilingual = false
 
 [build]
-dist = "book"
+build-dir = "book"
 create-missing = true
 
 [output.html]
