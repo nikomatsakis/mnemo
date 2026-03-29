@@ -1,0 +1,14 @@
+[book]
+title = "Mnemo"
+authors = ["Nicholas Matsakis", "Pacific Heart"]
+src = "md"
+multilingual = false
+
+[build]
+dist = "book"
+create-missing = true
+
+[output.html]
+default-theme = "light"
+smart-punctuation = true
+
