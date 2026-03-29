@@ -2,6 +2,7 @@
 
 - [Introduction](README.md)
 - [User Guide](user-guide/overview.md)
+  - [Site Map](user-guide/site-map.md)
   - [Configuration](user-guide/configuration.md)
   - [Practice Flow](user-guide/practice-flow.md)
 - [Architecture](architecture/overview.md)
