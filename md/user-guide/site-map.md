@@ -8,7 +8,7 @@ This chapter sketches the MVP surfaces so you can visualize how Mnemo will feel 
 ┌───────────────────────────────────────────────┐
 │ Mnemo                                         │
 │-----------------------------------------------│
-│ Tracks                                         │
+│ Tracks                                [+ Add track]
 │  [★] Greek — "basic travel"    [Test Me] [⚙]  │
 │  [ ] German — "advanced"       [Test Me] [⚙]  │
 │                                               │
@@ -25,9 +25,9 @@ This chapter sketches the MVP surfaces so you can visualize how Mnemo will feel 
 
 - Landing page after login.
 - Lists every language track with a quick “Test Me” button and a link to configure (`[⚙]`).
+- Dedicated **+ Add track** button opens the track wizard without diving into settings.
 - Shows the current queue preview chosen by the scheduler so learners know what’s coming.
 - Session length slider (or dropdown) feeds the scheduler before it generates the batch.
-- Primary CTA is the bottom **Test Me** button (mirrors the track-level buttons).
 
 ## 2. Add / Edit Language Track
 
@@ -78,9 +78,10 @@ This chapter sketches the MVP surfaces so you can visualize how Mnemo will feel 
 ┌───────────────────────────────────────────────┐
 │ Vocabulary Areas (Greek)                      │
 │-----------------------------------------------│
-│ Area label        Words                       │
-│ Ordering coffee   καφές ✖  ελληνικός ✖  ζάχαρη ✖ │
-│ Transit pickups   ταξί ✖  οδηγός ✖  πινακίδα ✖   │
+│ ▼ Ordering coffee   (12 words ready)           │
+│   καφές ✖  ελληνικός ✖  ζάχαρη ✖               │
+│   [ + More suggestions ]                       │
+│ ▶ Transit pickups   (collapsed)                │
 │                                               │
 │ + Add new area                                │
 │-----------------------------------------------│
@@ -96,9 +97,9 @@ This chapter sketches the MVP surfaces so you can visualize how Mnemo will feel 
 └───────────────────────────────────────────────┘
 ```
 
-- Top section lists existing vocab areas with per-word trash icons so learners can prune suggestions they don’t like.
+- Existing vocab areas render as an accordion: collapsed rows show the label + word count, while expanded rows expose the words with per-word trash icons and a per-area “+ More suggestions” button.
 - Bottom panel lets the user describe a new area; clicking **Generate** calls the LLM and shows the 10–20 suggested words.
-- MVP lets you accept the current list, regenerate entirely, or ask for a few more words via “+ More suggestions”.
+- MVP lets you accept the current list, regenerate entirely, or ask for a few more words before saving.
 
 ## 5. Practice Session (Test Me)
 
