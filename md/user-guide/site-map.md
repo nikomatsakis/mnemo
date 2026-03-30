@@ -35,17 +35,18 @@ This chapter sketches the MVP surfaces so you can visualize how Mnemo will feel 
 ┌───────────────────────────────────────────────┐
 │ New Track                                     │
 │-----------------------------------------------│
-│ Language:   [Greek v ]                         │
+│ Language:   [Greek ▾]                          │
 │ Descriptor: ["basic travel"]                  │
 │ Native lang: English (read-only)               │
-│ Experience: [Beginner v]                       │
+│ Experience: [Beginner ▾]                       │
 │                                               │
 │ [Continue to Grammar ▶]                        │
 └───────────────────────────────────────────────┘
 ```
 
 - Lightweight wizard (one screen for MVP) invoked from “Add track” or `[⚙]`.
-- Captures which curated language bundle to load and a freeform descriptor.
+- Language dropdown lists only the curated bundles we ship—no custom languages in the UI.
+- Descriptor is the only freeform field so learners can remind themselves of the track’s intent.
 - Native language is shown for context (editable elsewhere in profile settings).
 - Continue button jumps straight to the grammar checklist for that track.
 
@@ -55,21 +56,21 @@ This chapter sketches the MVP surfaces so you can visualize how Mnemo will feel 
 ┌───────────────────────────────────────────────┐
 │ Greek Grammar Factors                         │
 │-----------------------------------------------│
-│ [✔] Alphabet basics             confident      │
-│ [ ] Present tense -ω verbs      learning       │
-│ [ ] Café ordering phrases       learning       │
-│ [ ] Transit emergencies         to review      │
+│ [x] Alphabet basics        12 prompts · 92% ✔  │
+│ [x] Present tense -ω verbs  7 prompts · 57% ✔  │
+│ [ ] Café ordering phrases   0 prompts yet      │
+│ [ ] Transit emergencies     0 prompts yet      │
 │-----------------------------------------------│
-│ Legend: confident • learning • to review      │
+│ Stats update automatically from your attempts │
 │                                               │
 │ [Save changes]              [Back to track]   │
 └───────────────────────────────────────────────┘
 ```
 
 - Shows the curated checklist shipped in code for the selected language.
-- Every row is a toggle with one of three statuses (confident, learning, to review).
-- Learners curate which factors appear in the scheduler by flipping statuses here.
-- Save writes `track_factor_selection`; there’s no freeform editing of factors in MVP.
+- Each row is just a checkbox: enabled items feed the scheduler; disabled ones are ignored.
+- Attempt counts + correctness summaries are read-only data pulled from recent practice history.
+- Save writes `track_factor_selection`; there’s still no freeform editing of factors in MVP.
 
 ## 4. Vocabulary Area Builder
 
@@ -78,8 +79,8 @@ This chapter sketches the MVP surfaces so you can visualize how Mnemo will feel 
 │ Vocabulary Areas (Greek)                      │
 │-----------------------------------------------│
 │ Area label        Words                       │
-│ Ordering coffee   καφές, ελληνικός, ζάχαρη…   │
-│ Transit pickups   ταξί, οδηγός, πινακίδα…     │
+│ Ordering coffee   καφές ✖  ελληνικός ✖  ζάχαρη ✖ │
+│ Transit pickups   ταξί ✖  οδηγός ✖  πινακίδα ✖   │
 │                                               │
 │ + Add new area                                │
 │-----------------------------------------------│
@@ -89,15 +90,15 @@ This chapter sketches the MVP surfaces so you can visualize how Mnemo will feel 
 │  [Generate 15 words]                           │
 │                                               │
 │ Suggestions                                    │
-│  νοσοκομείο, τραύμα, ασφάλιση, …               │
+│  νοσοκομείο ✖   τραύμα ✖   ασφάλιση ✖           │
 │                                               │
-│ [Accept list]   [Regenerate]                   │
+│ [Accept list]   [Regenerate]  [ + More suggestions ]
 └───────────────────────────────────────────────┘
 ```
 
-- Top section lists existing vocab areas (each linking to a detail modal if needed).
+- Top section lists existing vocab areas with per-word trash icons so learners can prune suggestions they don’t like.
 - Bottom panel lets the user describe a new area; clicking **Generate** calls the LLM and shows the 10–20 suggested words.
-- MVP accepts the suggestions wholesale via **Accept list**; editing individual words comes later.
+- MVP lets you accept the current list, regenerate entirely, or ask for a few more words via “+ More suggestions”.
 
 ## 5. Practice Session (Test Me)
 
@@ -126,25 +127,26 @@ This chapter sketches the MVP surfaces so you can visualize how Mnemo will feel 
 ┌───────────────────────────────────────────────┐
 │ Result                                         │
 │-----------------------------------------------│
-│ Verdict: ✖ Incorrect                           │
+│ Focus item                     Verdict  Notes  │
+│ Grammar • Present -ω verbs     ✖        Missing article
+│ Word   • καφές                 ✔        Nailed it
+│ Word   • ζάχαρη                ✖        Forgot accent
+│-----------------------------------------------│
 │ Model answer: «Θα ήθελα έναν γλυκό καφέ, παρακαλώ.»
 │ Your answer:  «Θέλω γλυκό καφέ παρακαλώ»       │
-│ Notes: difference highlighted (missing article)
 │-----------------------------------------------│
 │ [Next prompt ▶]                                │
 │                                               │
 │ Recent attempts                               │
 │  ✔ #1021 Greek / coffee / present tense        │
 │  ✖ #1020 Greek / transit / aorist              │
-│                                               │
-│ [Add journal reflection]                      │
 └───────────────────────────────────────────────┘
 ```
 
 - Immediately follows the prompt view after judge response.
-- Shows verdict, canonical answer, learner answer, and a short textual comparison.
-- “Next prompt” advances the queue until the requested session length is exhausted.
-- Recent attempts sidebar offers quick navigation plus an optional “journal reflection” entry field (purely textual, stored separately).
+- Shows per-item verdicts for every grammar factor + vocab word that was targeted, mirroring what we log in the DB.
+- Model vs learner answers stay visible for quick comparison.
+- Recent attempts sidebar offers quick navigation across the session.
 
 ## 7. Account & Admin Console
 
@@ -155,11 +157,11 @@ This chapter sketches the MVP surfaces so you can visualize how Mnemo will feel 
 │ Profile                                        │
 │  Display name   [Niko]                         │
 │  Email          [nikomatsakis@…]              │
-│  Native lang    [English v ]                   │
+│  Native lang    [English ▾]                    │
 │  Password       [••••••] [Change]              │
 │                                               │
 │ Data                                             │
-│  [Export my data]   [Delete my account]         │
+│  [Delete my account]                            │
 │-----------------------------------------------│
 │ Admin (password required)                       │
 │  [Unlock console]                               │
@@ -167,8 +169,9 @@ This chapter sketches the MVP surfaces so you can visualize how Mnemo will feel 
 └───────────────────────────────────────────────┘
 ```
 
-- Combines user profile edits, data export/delete actions, and the admin override switch.
+- Combines user profile edits, account deletion, and the admin override switch.
 - Admin unlock (via env-set password) reveals a simple table where the operator can reset passwords, remove users, or pause sign-ups; no multi-tenant tools yet.
+- Data export is intentionally deferred until after the MVP loop is live.
 
 ---
 
